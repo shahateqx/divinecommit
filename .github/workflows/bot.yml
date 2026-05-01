@@ -1,0 +1,23 @@
+name: Daily Contribution Bot
+
+on:
+  schedule:
+    # This runs at 16:30 UTC, which is 10:30 PM GMT+6 (Dhaka)
+    - cron: '30 16 * * *'
+  workflow_dispatch: # This allows you to run it manually from the "Actions" tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run bot script
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          /bin/bash bot.sh
+          git push
